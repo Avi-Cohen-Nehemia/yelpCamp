@@ -150,7 +150,7 @@ router.get("/:id/edit", middleware.isTheCampgroundOwner, async (req, res) => {
 router.put("/:id", middleware.isTheCampgroundOwner, (req, res) => {
 	geocoder.geocode(req.body.campground.location, (error, data) => {
 		if (error || !data.length) {
-			req.flash('error', 'Invalid address');
+			req.flash('error', error.message);
 			return res.redirect('back');
 		}
 		req.body.campground.lat = data[0].latitude;
