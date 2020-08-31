@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YelpCamp</title>
+        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+        <script defer src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+            <a class="navbar-brand" href="/"><i class="fas fa-campground"></i> YelpCamp</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <% if (!currentUser) { %>
+                        <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+                        <li class="nav-item mr-2"><a href="/register" class="nav-link">Sign Up</a></li>
+                        <li class="nav-item">
+                            <form action="/campgrounds" method="GET" class="form-group d-flex mb-0">
+                                <input type="text" name="search" placeholder="Search campgrounds..." class="form-control">
+                                <input type="submit" value="Search" class="btn btn-outline-success ml-2">
+                            </form>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item"><a href="#" class="nav-link">Signed in as <%= currentUser.username %></a></li>
+                        <li class="nav-item mr-2"><a href="/logout" class="nav-link">Logout</a></li>
+                        <li class="nav-item">
+                            <form action="/campgrounds" method="GET" class="form-group d-flex mb-0">
+                                <input type="text" name="search" placeholder="Search campgrounds..." class="form-control">
+                                <input type="submit" value="Search" class="btn btn-outline-success ml-2">
+                            </form>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <% if (error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert"><%= error %></div>
+            <% } %>
+            <% if (success && success.length > 0) { %>
+                <div class="alert alert-success" role="alert"><%= success %></div>
+            <% } %> 
+        </div>

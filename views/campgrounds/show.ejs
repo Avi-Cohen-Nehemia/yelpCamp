@@ -1,0 +1,124 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    <div class="row">
+        <!--Left column of the show page-->
+        <div class="col-md-3">
+            <p class="lead">Yelp Camp</p>
+            <div class="list-group mb-4">
+                <li class="list-group-item active">Info 1</li>
+                <li class="list-group-item">Info 2</li>
+                <li class="list-group-item">Info 3</li>
+            </div>
+            <div id="map"></div>
+        </div>
+
+        <!--Right column of the show page-->
+        <div class="col-md-9">
+            <!--Submitted by, Image, Name, price and description of the campground-->>
+            <div class="card img-thumbnail mb-3 p-0">
+                <img src="<%= campground.image %>" class="card-img-top"/>
+                <div class="caption-full p-4"> 
+                    <h4 class="float-right">$<%= campground.price %>/night</h4>
+                    <h4><a href="#"><%= campground.name %></a></h4>
+                    <p><%= campground.description %></p>
+                    <div class="d-flex justify-content-between">
+                        <p class="my-auto"><em>Submitted by <%= campground.author.username %>, <%= moment(campground.createdAt).fromNow() %></em></p>
+                        <a class="btn btn-default" href="/campgrounds"><i class="fa fa-arrow-left"></i> Go back</a>
+                    </div>
+                    <!-- show these buttons only if the user is logged in and owns the campground -->
+                    <% if (currentUser && (campground.author.id.equals(currentUser._id))) { %>
+                        <a href="/campgrounds/<%= campground._id %>/edit" class="btn btn-sm btn-warning font-weight-bold text-white">Edit</a>
+                        <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST" class="d-inline">
+                            <button class="btn btn-sm btn-danger font-weight-bold">Delete</button>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+            <div class="card card-header mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <% if (campground.rating === 0) { %>
+                    <div>
+                        <h5>
+                            <em>No reviews yet.</em>
+                        </h5>
+                    </div>
+                    <% } else { %>
+                    <div class="mt-2">
+                        <p>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star <% if (campground.rating > 1.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (campground.rating > 2.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (campground.rating > 3.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (campground.rating > 4.5) { %> checked <% } %>"></span>
+                            <em>(total reviews: <%= campground.reviews.length %>)</em>
+                        </p>
+                        <p>
+                            Current campground rating: <strong><%= campground.rating.toFixed(2) %></strong>
+                        </p>
+                    </div>
+                    <% } %>
+                    <a href="/campgrounds/<%= campground._id %>/reviews/new" class="btn btn-lg btn-success">Add New Review</a>
+                </div>
+                <% campground.reviews.slice(0, 5).map((review) => { %>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <%- '<span class="fa fa-star checked"></span>'.repeat(review.rating) %><%- '<span class="fa fa-star"></span>'.repeat(5 - review.rating) %>
+                        <div>Review by: <strong><%= review.author.username %></strong></div>
+                        <span><em><%= review.updatedAt.toDateString() %></em></span>
+                        <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
+                            <div class="d-flex mt-2">
+                                <a class="btn btn-sm btn-warning mr-2" href="/campgrounds/<%=campground._id %>/reviews/<%=review._id %>/edit">Edit</a>
+                                <form id="delete-form" action="/campgrounds/<%=campground._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
+                                    <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                                </form>
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="col-md-9">
+                        <p>
+                            <%= review.text %>
+                        </p>
+                    </div>
+                </div>
+                <% }); %>
+                <% if (campground.reviews.length > 5) { %>
+                <hr>
+                <h4><a href="/campgrounds/<%= campground._id %>/reviews"><i class="fa fa-search" aria-hidden="true"></i> See all reviews</a></h4>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        function initMap() {
+          let lat = +`<%= campground.lat %>`;
+          let lng = +`<%= campground.lng %>`;
+          let center = {lat: lat, lng: lng };
+          let map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 8,
+              center: center,
+              scrollwheel: false
+          });
+          let contentString = `
+            <strong><%= campground.name %><br />
+            <%= campground.location %></strong>
+            <p><%= campground.description %></p>
+          `
+          let infowindow = new google.maps.InfoWindow({
+            content: contentString
+          });
+          let marker = new google.maps.Marker({
+              position: center,
+              map: map
+          });
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.MAPS_API_KEY %>&callback=initMap"></script>
+
+<%- include("../partials/footer") %>

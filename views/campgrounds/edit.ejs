@@ -1,0 +1,50 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    <h1 class="text-center mb-3">Edit <%= campground.name %></h1>
+
+    <form action="/campgrounds/<%= campground._id %>/?_method=PUT" method="POST" class="form-group">
+        <div class="row">
+            <div class="form-group col-md-6 mx-auto">
+                <label for="edit-name">Campground Name</label>
+                <input type="text" value="<%= campground.name %>" name="campground[name]"id="edit-name" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mx-auto">
+                <label for="edit-price">Price Per Night</label>
+                <input type="number" value="<%= campground.price %>" name="campground[price]" id="edit-price" class="form-control" min="0.01" step="0.01">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mx-auto">
+                <label for="edit-image">Image URL</label>
+                <input type="text" value="<%= campground.image %>" name="campground[image]" id="edit-image" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mx-auto">
+                <label for="edit-location">Location</label>
+                <input type="text" value="<%= campground.location %>" name="campground[location]" id="edit-location" class="form-control">
+            </div>
+        </div>
+		<div class="row">
+            <div class="form-group col-md-6 mx-auto">
+                <label for="edit-description">Description</label>
+                <textarea name="campground[description]" id="edit-description" class="form-control" rows="4" ><%= campground.description %></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mx-auto">
+                <button type="submit" class="btn btn-lg btn-success btn-block">Submit</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-md-6 ml-auto mr-auto">
+            <a href="/campgrounds">Go Back</a>
+        </div>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>

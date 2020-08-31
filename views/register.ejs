@@ -1,0 +1,32 @@
+<%- include("./partials/header") %>
+
+<div class="container">
+    <h1 class="text-center mb-3">Sign Up</h1>
+
+    <form action="/register" method="POST" class="form-group">
+        <div class="row">
+            <div class="form-group col-md-6 mx-auto">
+                <label for="username">Username</label>
+                <input type="text" name="username" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mx-auto">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mx-auto">
+                <button type="submit" class="btn btn-lg btn-success btn-block">Sign Up</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-md-6 ml-auto mr-auto">
+            <a href="/login">Already a member? Click here to log in!</a>
+        </div>
+    </div>
+</div>
+
+<%- include("./partials/footer") %>
