@@ -85,9 +85,9 @@ router.post("/", middleware.isLoggedIn,(req, res) => {
 		id: req.user._id,
 		username: req.user.username,
 	};
-	geocoder.geocode(req.body.campground.location, (err, data) => {
-		if (err || !data.length) {
-			req.flash('error', 'Invalid address');
+	geocoder.geocode(req.body.campground.location, (error, data) => {
+		if (error || !data.length) {
+			req.flash('error', error.message);
 			return res.redirect('back');
 		}
 		let lat = data[0].latitude;
@@ -101,9 +101,9 @@ router.post("/", middleware.isLoggedIn,(req, res) => {
 			lng: lng
 		};
 		// Create a new campground and save to DB
-		Campground.create(newCampground, (err, newlyCreated) => {
-			if(err){
-				console.log(err);
+		Campground.create(newCampground, (error, newlyCreated) => {
+			if(error){
+				console.log(error);
 			} else {
 				//redirect back to campgrounds page
 				console.log(newlyCreated);
