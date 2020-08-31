@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Avi-Cohen-Nehemia/udemyWebDevelopmentCourse.git"
+    "url": "git+https://github.com/Avi-Cohen-Nehemia/yelpCamp"
   },
   "author": "Avi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Avi-Cohen-Nehemia/udemyWebDevelopmentCourse/issues"
+    "url": "https://github.com/Avi-Cohen-Nehemia/yelpCamp/issues"
   },
-  "homepage": "https://github.com/Avi-Cohen-Nehemia/udemyWebDevelopmentCourse#readme",
+  "homepage": "https://github.com/Avi-Cohen-Nehemia/yelpCamp#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
